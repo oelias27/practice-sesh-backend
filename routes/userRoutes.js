@@ -18,25 +18,28 @@ router.get('/getUsers', async (req, res) => {
 
 
 router.post('/login', async (req, res) => {
-    const userName = req.body.username;
+    const username = req.body.username;
     const password = req.body.password;
 
     try {
 
         const user = await User.findOne({ 
-            userName: userName,
+            username: username,
             password: password 
         });
 
-        if (null == user) {
-            return res.json({ auth: true, 
-                              user: user,
-                              admin: user.admin });
+        if (null != user) {
+            return res.json({ 
+                auth: true, 
+                user: user,
+                admin: user.admin 
+            });
         } else {
             throw "Incorrect username or password";
         }
 
     } catch (err) {
+        console.log(err)
         res.json({ auth: false, err: err })
     }
 
@@ -49,14 +52,14 @@ router.post('/login', async (req, res) => {
 router.post('/registerUser', async (req, res) => {
 
     const newUser = new User({
-        userName: req.body.userName,
+        username: req.body.username,
         password: req.body.password,
         admin: req.body.admin
     });
 
     try {
-        const existingUser = await User.findOne({userName: req.body.userName});
-        
+        const existingUser = await User.findOne({username: req.body.username});
+        console.log(existingUser)
         if (null == existingUser) {
             return res.send( await newUser.save() );
         } else {

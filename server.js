@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const passport = require('passport');
@@ -13,6 +14,7 @@ const sessionRoutes = require('./routes/sessionRoutes.js');
 
 app.use(bodyParser());
 app.use(morgan('dev'));
+app.use(cors())
 
 mongoose.connect('mongodb://127.0.0.1:27017/practice');
 
