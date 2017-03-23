@@ -17,6 +17,32 @@ router.get('/getUsers', async (req, res) => {
 })
 
 
+router.post('/login', async (req, res) => {
+    const userName = req.body.username;
+    const password = req.body.password;
+
+    try {
+
+        const user = await User.findOne({ 
+            userName: userName,
+            password: password 
+        });
+
+        if (null == user) {
+            return res.json({ auth: true, 
+                              user: user,
+                              admin: user.admin });
+        } else {
+            throw "Incorrect username or password";
+        }
+
+    } catch (err) {
+        res.json({ auth: false, err: err })
+    }
+
+})
+
+
 /**
  * Registers a new user to database.
  */
