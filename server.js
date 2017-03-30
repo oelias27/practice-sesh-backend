@@ -12,11 +12,13 @@ const app = express();
 const userRoutes = require('./routes/userRoutes');
 const sessionRoutes = require('./routes/sessionRoutes.js');
 
+const dbAddress = process.env.DB;
+
 app.use(bodyParser());
 app.use(morgan('dev'));
 app.use(cors())
 
-mongoose.connect('mongodb://127.0.0.1:27017/practice');
+mongoose.connect(dbAddress);
 
 let db = mongoose.connection;
 
